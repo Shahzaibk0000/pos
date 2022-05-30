@@ -15,4 +15,16 @@ public class ProductService {
     public ArrayList<Product> getAllProduct() {
         return productDao.getAllProduct();
     }
+
+    public ArrayList<Product> searchProductByName(String name) {
+        return productDao.searchProductByName(name);
+    }
+
+    public ArrayList<Product> searchProductById(int id) {
+        return productDao.searchProductById(id);
+    }
+
+    public void saveProduct(Product product) {
+        productDao.saveProduct(product);
+    }
 }

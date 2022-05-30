@@ -1,6 +1,7 @@
 package view;
 
 import service.LoginService;
+import util.AppConstant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +35,7 @@ public class LoginView {
         mainPanel.setBackground(Color.BLACK);
 
         JLabel companyLable;
-        companyLable = new JLabel("'Point of Sales'");
+        companyLable = new JLabel(AppConstant.COMPANY_NAME);
         companyLable.setForeground(new Color(0X00FF00));
         companyLable.setBackground(Color.BLACK);
         companyLable.setFont(new Font("Serif", Font.ITALIC, 28));
@@ -86,7 +87,7 @@ public class LoginView {
         return loginFrame;
     }
 
-    public ActionListener loginOnClickEvent() {
+    private ActionListener loginOnClickEvent() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println();

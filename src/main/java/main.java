@@ -8,8 +8,5 @@ public class main {
         LoginView login = new LoginView();
         JFrame jFrame = login.getFrame();
         jFrame.setVisible(true);
-        /*MenuView menuView = new MenuView();
-        JFrame jFrame1 = menuView.getFrame();
-        jFrame1.setVisible(true);*/
     }
 }

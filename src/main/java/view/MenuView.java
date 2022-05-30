@@ -32,7 +32,7 @@ public class MenuView {
         companyNameLable.setBackground(Color.BLACK);
         companyNameLable.setFont(new Font("Serif", Font.ITALIC, 32));
         companyNameLable.setOpaque(true);
-        companyNameLable.setBounds(380, 0, 200, 35);
+        companyNameLable.setBounds(380, 0, 230, 35);
         mainPanel.add(companyNameLable);
 
         JButton inventoryButton = new JButton("Inventory");
@@ -57,7 +57,7 @@ public class MenuView {
         return menuFrame;
     }
 
-    public ActionListener loginOnClickEventProduct() {
+    private ActionListener loginOnClickEventProduct() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ProductView productsView = new ProductView();
