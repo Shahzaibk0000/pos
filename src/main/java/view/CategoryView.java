@@ -1,7 +1,9 @@
 package view;
 
-import entity.Product;
+import entity.Category;
+import service.CategoryService;
 import service.ProductService;
+import tableModel.CategoryTableModel;
 import tableModel.ProductTableModel;
 import util.AppConstant;
 
@@ -13,20 +15,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ProductView {
+public class CategoryView {
     private JFrame jFrame;
     private JTextField searchFeild;
-    private ProductService productService;
-    private ArrayList<Product> productList;
+    private CategoryService categoryService;
+    private ArrayList<Category> categoryList;
     private JTable table;
     private JComboBox searchByComboBox;
     private String searchDropDown[] = {"Id", "Name"};
-    private ProductSaveView productSaveView;
+    private CategorySaveView categorySaveView;
 
-    public ProductView() {
-        this.productService = new ProductService();
-        productList = productService.getAllProduct();
-        productSaveView = new ProductSaveView(this);
+    public CategoryView() {
+        this.categoryService = new CategoryService();
+        categoryList = categoryService.getAllCategory();
+        categorySaveView = new CategorySaveView(this);
     }
 
     public JFrame getFrame() {
@@ -35,7 +37,7 @@ public class ProductView {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formatDateTime = now.format(format);
 
-        jFrame = new JFrame("Products");
+        jFrame = new JFrame("Category");
         jFrame.getContentPane().setBackground(Color.BLACK);
         jFrame.setSize(900, 650);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -65,17 +67,17 @@ public class ProductView {
         companyNameLable.setBounds(320, 20, 230, 50);
         mainPanel.add(companyNameLable);
 
-        table = new JTable(new ProductTableModel(productList));
+        table = new JTable(new CategoryTableModel(categoryList));
         JScrollPane scroll = new JScrollPane(table);
         scroll.setBounds(2, 150, 857, 425); // x, y, width, height
 
         mainPanel.add(scroll);
-        JButton createProductButton = new JButton("Create");
-        createProductButton.setBackground(Color.LIGHT_GRAY);
-        createProductButton.setBounds(5, 96, 100, 40);
-        createProductButton.setFont(new Font("Serif", Font.ITALIC, 16));
-        createProductButton.addActionListener(createOnClickEvent());
-        mainPanel.add(createProductButton);
+        JButton createCategoryButton = new JButton("Create");
+        createCategoryButton.setBackground(Color.LIGHT_GRAY);
+        createCategoryButton.setBounds(5, 96, 100, 40);
+        createCategoryButton.setFont(new Font("Serif", Font.ITALIC, 16));
+        createCategoryButton.addActionListener(createOnClickEvent());
+        mainPanel.add(createCategoryButton);
 
         JLabel searchLable = new JLabel("Search Record by ");
         searchLable.setForeground(new Color(0X00FF00));
@@ -118,18 +120,18 @@ public class ProductView {
                 String dropDown = (String) searchByComboBox.getSelectedItem();
                 if (dropDown.equals("Id")) {
                     int id = Integer.parseInt(searchFeild.getText());
-                    productList = productService.searchProductById(id);
-                    table.setModel(new ProductTableModel(productList));
+                    categoryList = categoryService.searchCategoryById(id);
+                    table.setModel(new CategoryTableModel(categoryList));
                     table.notifyAll();
                 } else if (dropDown.equals("Name")) {
                     String name = searchFeild.getText().toString();
-                    productList = productService.searchProductByName(name);
-                    table.setModel(new ProductTableModel(productList));
+                    categoryList = categoryService.searchCategoryByName(name);
+                    table.setModel(new CategoryTableModel(categoryList));
                     table.notifyAll();
                 } else {
                     String name = searchFeild.getText().toString();
-                    productList = productService.searchProductByName(name);
-                    table.setModel(new ProductTableModel(productList));
+                    categoryList = categoryService.searchCategoryByName(name);
+                    table.setModel(new CategoryTableModel(categoryList));
                     table.notifyAll();
                 }
             }
@@ -146,15 +148,15 @@ public class ProductView {
     }
 
     public void showAll(){
-        productList = productService.getAllProduct();
-        table.setModel(new ProductTableModel(productList));
+        categoryList = categoryService.getAllCategory();
+        table.setModel(new CategoryTableModel(categoryList));
         table.notifyAll();
     }
 
     private ActionListener createOnClickEvent() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame jFrame = productSaveView.getFrame();
+                JFrame jFrame = categorySaveView.getFrame();
                 jFrame.setVisible(true);
             }
         };

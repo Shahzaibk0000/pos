@@ -13,6 +13,8 @@ public class ProductSaveView {
     private JFrame saveProductFrame;
     private ProductService productService;
     private ProductView productView;
+    private JComboBox addCategoryByComboBox , statusComboBox;
+    private String categoryDropDown[] = {"fruits","Soft Drinks","Dairy"} , statusDropDown[] = {"active" , "in-active"};
 
     public ProductSaveView(ProductView productView) {
         this.productView = productView;
@@ -94,9 +96,11 @@ public class ProductSaveView {
         nameFeild.setBounds(80, 40, 200, 25);
         mainPanel.add(nameFeild);
 
-        categoryFeild = new JTextField();
-        categoryFeild.setBounds(110, 90, 200, 25);
-        mainPanel.add(categoryFeild);
+        addCategoryByComboBox = new JComboBox(categoryDropDown);
+        addCategoryByComboBox.setBackground(Color.GRAY);
+        addCategoryByComboBox.setEditable(false);
+        addCategoryByComboBox.setBounds(110, 90, 200, 25);
+        mainPanel.add(addCategoryByComboBox);
 
         supplierFeild = new JTextField();
         supplierFeild.setBounds(110, 140, 200, 25);
@@ -114,9 +118,11 @@ public class ProductSaveView {
         storageLocationFeild.setBounds(170, 290, 150, 25);
         mainPanel.add(storageLocationFeild);
 
-        statusFeils = new JTextField();
-        statusFeils.setBounds(90, 340, 200, 25);
-        mainPanel.add(statusFeils);
+        statusComboBox = new JComboBox(statusDropDown);
+        statusComboBox.setBackground(Color.GRAY);
+        statusComboBox.setEditable(false);
+        statusComboBox.setBounds(90, 340, 200, 25);
+        mainPanel.add(statusComboBox);
 
         JButton saveButton = new JButton("save");
         saveButton.setBackground(Color.LIGHT_GRAY);
@@ -133,13 +139,15 @@ public class ProductSaveView {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Product product = new Product();
+                String category = (String) addCategoryByComboBox.getSelectedItem();
+                String status = (String) statusComboBox.getSelectedItem();
                 product.setName(nameFeild.getText());
-                product.setCategory(categoryFeild.getText());
+                product.setCategory(category);
                 product.setSupplier(supplierFeild.getText());
                 product.setRsp(Double.parseDouble(rspFeild.getText()));
                 product.setNetRsp(Double.parseDouble(netRspFeild.getText()));
                 product.setStorageLocation(storageLocationFeild.getText());
-                product.setStatus(statusFeils.getText());
+                product.setStatus(status);
                 productService.saveProduct(product);
                 saveProductFrame.dispose();
                 productView.showAll();

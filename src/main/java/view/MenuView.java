@@ -52,6 +52,7 @@ public class MenuView {
         productCategoriesButton.setBackground(Color.LIGHT_GRAY);
         productCategoriesButton.setBounds(750, 100, 170, 170);
         productCategoriesButton.setFont(new Font("Serif", Font.ITALIC, 28));
+        productCategoriesButton.addActionListener(loginOnClickEventCategory());
         mainPanel.add(productCategoriesButton);
 
         return menuFrame;
@@ -63,6 +64,16 @@ public class MenuView {
                 ProductView productsView = new ProductView();
                 JFrame productsFrame = productsView.getFrame();
                 productsFrame.setVisible(true);
+            }
+        };
+    }
+
+    private ActionListener loginOnClickEventCategory() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CategoryView categoryView = new CategoryView();
+                JFrame categoryFrame = categoryView.getFrame();
+                categoryFrame.setVisible(true);
             }
         };
     }
