@@ -39,26 +39,41 @@ public class MenuView {
         inventoryButton.setBackground(Color.LIGHT_GRAY);
         inventoryButton.setBounds(50, 100, 170, 170);
         inventoryButton.setFont(new Font("Serif", Font.ITALIC, 28));
+        inventoryButton.addActionListener(OnClickEventInventory());
         mainPanel.add(inventoryButton);
 
         JButton productsButton = new JButton("Products");
         productsButton.setBackground(Color.LIGHT_GRAY);
         productsButton.setBounds(390, 100, 170, 170);
         productsButton.setFont(new Font("Serif", Font.ITALIC, 32));
-        productsButton.addActionListener(loginOnClickEventProduct());
+        productsButton.addActionListener(OnClickEventProduct());
         mainPanel.add(productsButton);
 
         JButton productCategoriesButton = new JButton("Categories");
         productCategoriesButton.setBackground(Color.LIGHT_GRAY);
         productCategoriesButton.setBounds(750, 100, 170, 170);
         productCategoriesButton.setFont(new Font("Serif", Font.ITALIC, 28));
-        productCategoriesButton.addActionListener(loginOnClickEventCategory());
+        productCategoriesButton.addActionListener(OnClickEventCategory());
         mainPanel.add(productCategoriesButton);
+
+        JButton employeeButton = new JButton("Employee");
+        employeeButton.setBackground(Color.LIGHT_GRAY);
+        employeeButton.setBounds(50, 400, 170, 170);
+        employeeButton.setFont(new Font("Serif", Font.ITALIC, 28));
+        employeeButton.addActionListener(OnClickEventEmployee());
+        mainPanel.add(employeeButton);
+
+        JButton supplierButton = new JButton("Supplier");
+        supplierButton.setBackground(Color.LIGHT_GRAY);
+        supplierButton.setBounds(390, 400, 170, 170);
+        supplierButton.setFont(new Font("Serif", Font.ITALIC, 28));
+        supplierButton.addActionListener(OnClickEventSupplier());
+        mainPanel.add(supplierButton);
 
         return menuFrame;
     }
 
-    private ActionListener loginOnClickEventProduct() {
+    private ActionListener OnClickEventProduct() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ProductView productsView = new ProductView();
@@ -68,12 +83,42 @@ public class MenuView {
         };
     }
 
-    private ActionListener loginOnClickEventCategory() {
+    private ActionListener OnClickEventCategory() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CategoryView categoryView = new CategoryView();
                 JFrame categoryFrame = categoryView.getFrame();
                 categoryFrame.setVisible(true);
+            }
+        };
+    }
+
+    private ActionListener OnClickEventInventory() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InventoryView inventoryView = new InventoryView();
+                JFrame inventoryFrame = inventoryView.getFrame();
+                inventoryFrame.setVisible(true);
+            }
+        };
+    }
+
+    private ActionListener OnClickEventEmployee() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                EmployeeView employeeView = new EmployeeView();
+                JFrame employeeFrame = employeeView.getFrame();
+                employeeFrame.setVisible(true);
+            }
+        };
+    }
+
+    private ActionListener OnClickEventSupplier() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SupplierView supplierView = new SupplierView();
+                JFrame supplierViewFrame = supplierView.getFrame();
+                supplierViewFrame.setVisible(true);
             }
         };
     }

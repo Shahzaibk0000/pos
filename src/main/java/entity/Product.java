@@ -2,6 +2,8 @@ package entity;
 
 public class Product {
     private int id;
+    private int categoryId;
+    private int supplierId;
     private String name;
     private String category;
     private String supplier;
@@ -72,5 +74,36 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(int supplierId) {
+        this.supplierId = supplierId;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", supplier='" + supplier + '\'' +
+                ", rsp=" + rsp +
+                ", netRsp=" + netRsp +
+                ", storageLocation='" + storageLocation + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

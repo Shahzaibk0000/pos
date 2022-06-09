@@ -2,15 +2,15 @@ package view;
 
 import entity.Category;
 import service.CategoryService;
-import service.ProductService;
 import tableModel.CategoryTableModel;
-import tableModel.ProductTableModel;
 import util.AppConstant;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ public class CategoryView {
     private JComboBox searchByComboBox;
     private String searchDropDown[] = {"Id", "Name"};
     private CategorySaveView categorySaveView;
+    private CategoryEditView categoryEditView;
 
     public CategoryView() {
         this.categoryService = new CategoryService();
@@ -70,6 +71,18 @@ public class CategoryView {
         table = new JTable(new CategoryTableModel(categoryList));
         JScrollPane scroll = new JScrollPane(table);
         scroll.setBounds(2, 150, 857, 425); // x, y, width, height
+        table.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    JTable target = (JTable)e.getSource();
+                    int row = target.getSelectedRow();
+                    int column = target.getColumnCount();
+                    System.out.println(categoryList.get(row).toString());
+                    categoryEditView = new CategoryEditView(categoryList.get(row));
+                    JFrame editProductFrame = categoryEditView.getFrame();
+                }
+            }
+        });
 
         mainPanel.add(scroll);
         JButton createCategoryButton = new JButton("Create");
@@ -84,7 +97,7 @@ public class CategoryView {
         searchLable.setBackground(Color.BLACK);
         searchLable.setFont(new Font("Serif", Font.ITALIC, 18));
         searchLable.setOpaque(true);
-        searchLable.setBounds(205, 107, 120, 25);
+        searchLable.setBounds(190, 107, 135, 25);
         mainPanel.add(searchLable);
 
         searchByComboBox = new JComboBox(searchDropDown);
@@ -97,12 +110,12 @@ public class CategoryView {
         searchFeild.setBounds(410, 105, 230, 30);
         mainPanel.add(searchFeild);
 
-        JButton searchProductButton = new JButton("Search");
-        searchProductButton.setBackground(Color.LIGHT_GRAY);
-        searchProductButton.setBounds(651, 105, 90, 30);
-        searchProductButton.setFont(new Font("Serif", Font.ITALIC, 16));
-        mainPanel.add(searchProductButton);
-        searchProductButton.addActionListener(searchOnClickEvent());
+        JButton searchCategoryButton = new JButton("Search");
+        searchCategoryButton.setBackground(Color.LIGHT_GRAY);
+        searchCategoryButton.setBounds(651, 105, 90, 30);
+        searchCategoryButton.setFont(new Font("Serif", Font.ITALIC, 16));
+        mainPanel.add(searchCategoryButton);
+        searchCategoryButton.addActionListener(searchOnClickEvent());
 
         JButton showAllRecordButton = new JButton("Show All");
         showAllRecordButton.setBackground(Color.LIGHT_GRAY);

@@ -1,38 +1,32 @@
 package view;
 
-import entity.Product;
-import service.ProductService;
-import tableModel.ProductTableModel;
+import entity.Inventory;
+import service.InventoryService;
+import tableModel.InventoryTableModel;
 import util.AppConstant;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ProductView {
+public class InventoryView {
     private JFrame jFrame;
     private JTextField searchFeild;
-    private ProductService productService;
-    private ArrayList<Product> productList;
+    private InventoryService inventoryService;
+    private ArrayList<Inventory> inventoryList;
     private JTable table;
     private JComboBox searchByComboBox;
-    private String searchDropDown[] = {"Id", "Name"};
-    private ProductSaveView productSaveView;
-    private ProductEditView productEditView;
+    private String searchDropDown[] = {"Id"};
+    private InventorySaveView inventorySaveView;
 
-    public ProductView() {
-        this.productService = new ProductService();
-        productList = productService.getAllProduct();
-        productSaveView = new ProductSaveView(this);
+    public InventoryView() {
+        this.inventoryService = new InventoryService();
+        inventoryList = inventoryService.getAllInventory();
+        inventorySaveView = new InventorySaveView(this);
     }
 
     public JFrame getFrame() {
@@ -41,7 +35,7 @@ public class ProductView {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formatDateTime = now.format(format);
 
-        jFrame = new JFrame("Products");
+        jFrame = new JFrame("Inventory");
         jFrame.getContentPane().setBackground(Color.BLACK);
         jFrame.setSize(900, 650);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -71,29 +65,17 @@ public class ProductView {
         companyNameLable.setBounds(320, 20, 230, 50);
         mainPanel.add(companyNameLable);
 
-        table = new JTable(new ProductTableModel(productList));
+        table = new JTable(new InventoryTableModel(inventoryList));
         JScrollPane scroll = new JScrollPane(table);
-        scroll.setBounds(2, 150, 857, 425);
-        table.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    JTable target = (JTable)e.getSource();
-                    int row = target.getSelectedRow();
-                    int column = target.getColumnCount();
-                    System.out.println(productList.get(row).toString());
-                    productEditView = new ProductEditView(productList.get(row));
-                    JFrame editProductFrame = productEditView.getFrame();
-                }
-            }
-        });
+        scroll.setBounds(2, 150, 857, 425); // x, y, width, height
 
         mainPanel.add(scroll);
-        JButton createProductButton = new JButton("Create");
-        createProductButton.setBackground(Color.LIGHT_GRAY);
-        createProductButton.setBounds(5, 96, 100, 40);
-        createProductButton.setFont(new Font("Serif", Font.ITALIC, 16));
-        createProductButton.addActionListener(createOnClickEvent());
-        mainPanel.add(createProductButton);
+        JButton createInventoryButton = new JButton("Create");
+        createInventoryButton.setBackground(Color.LIGHT_GRAY);
+        createInventoryButton.setBounds(5, 96, 100, 40);
+        createInventoryButton.setFont(new Font("Serif", Font.ITALIC, 16));
+        mainPanel.add(createInventoryButton);
+        createInventoryButton.addActionListener(createOnClickEvent());
 
         JLabel searchLable = new JLabel("Search Record by ");
         searchLable.setForeground(new Color(0X00FF00));
@@ -133,23 +115,13 @@ public class ProductView {
     private ActionListener searchOnClickEvent() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String dropDown = (String) searchByComboBox.getSelectedItem();
-                if (dropDown.equals("Id")) {
+                //String dropDown = (String) searchByComboBox.getSelectedItem();
+                //if (dropDown.equals("Id")) {
                     int id = Integer.parseInt(searchFeild.getText());
-                    productList = productService.searchProductById(id);
-                    table.setModel(new ProductTableModel(productList));
+                    inventoryList = inventoryService.searchInventoryById(id);
+                    table.setModel(new InventoryTableModel(inventoryList));
                     table.notifyAll();
-                } else if (dropDown.equals("Name")) {
-                    String name = searchFeild.getText().toString();
-                    productList = productService.searchProductByName(name);
-                    table.setModel(new ProductTableModel(productList));
-                    table.notifyAll();
-                } else {
-                    String name = searchFeild.getText().toString();
-                    productList = productService.searchProductByName(name);
-                    table.setModel(new ProductTableModel(productList));
-                    table.notifyAll();
-                }
+                //}
             }
         };
     }
@@ -164,15 +136,15 @@ public class ProductView {
     }
 
     public void showAll(){
-        productList = productService.getAllProduct();
-        table.setModel(new ProductTableModel(productList));
+        inventoryList = inventoryService.getAllInventory();
+        table.setModel(new InventoryTableModel(inventoryList));
         table.notifyAll();
     }
 
     private ActionListener createOnClickEvent() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame jFrame = productSaveView.getFrame();
+                JFrame jFrame = inventorySaveView.getFrame();
                 jFrame.setVisible(true);
             }
         };

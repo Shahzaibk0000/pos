@@ -6,6 +6,8 @@ import entity.Category;
 import entity.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CategoryService {
     private CategoryDao categoryDao;
@@ -18,6 +20,10 @@ public class CategoryService {
         return categoryDao.getAllCategory();
     }
 
+    public Map<String,Integer> getAllCategoryMap() {
+        return categoryDao.getAllCategoryMap();
+    }
+
     public ArrayList<Category> searchCategoryByName(String name) {
         return categoryDao.searchCategoryByName(name);
     }
@@ -28,5 +34,9 @@ public class CategoryService {
 
     public void saveCategory(Category category) {
         categoryDao.saveCategory(category);
+    }
+
+    public void updateCategory(Category category) {
+        categoryDao.updateCategory(category);
     }
 }

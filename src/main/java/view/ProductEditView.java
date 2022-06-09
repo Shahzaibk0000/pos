@@ -1,59 +1,67 @@
 package view;
 
 import entity.Product;
-import entity.Supplier;
 import service.CategoryService;
+import service.InventoryService;
 import service.ProductService;
-import service.SupplierService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Map;
 
-public class ProductSaveView {
-    private JTextField nameFeild, rspFeild, netRspFeild, storageLocationFeild;
-    private JFrame saveProductFrame;
+public class ProductEditView {
+    private JFrame editProductFrame;
     private ProductService productService;
-    private SupplierService supplierService;
     private CategoryService categoryService;
     private ProductView productView;
-    private JComboBox addCategoryByComboBox, statusComboBox , supplierComboBox;
+    private Product product;
+    private String searchDropDown[] = {"Id", "Name"};
+    private JTextField supplierFeild, nameFeild, rspFeild, netRspFeild, storageLocationFeild, idFeild;
+    private JComboBox addCategoryByComboBox, statusComboBox;
     private String statusDropDown[] = {"active", "in-active"};
     private Map<String, Integer> categoryMap;
-    private Map<String, Integer> supplierMap;
+    private Map<String, Integer> productMap;
 
-    public ProductSaveView(ProductView productView) {
-        this.productView = productView;
+    public ProductEditView(Product product) {
+        this.product = product;
         productService = new ProductService();
         categoryService = new CategoryService();
-        supplierService = new SupplierService();
         categoryMap = categoryService.getAllCategoryMap();
-        supplierMap = supplierService.getAllSupplierMap();
+        productMap = productService.getAllProductMap();
     }
 
     public JFrame getFrame() {
-        saveProductFrame = new JFrame("save product");
-        saveProductFrame.getContentPane().setBackground(Color.BLACK);
-        saveProductFrame.setSize(400, 500);
+        editProductFrame = new JFrame("Edit product");
+        editProductFrame.getContentPane().setBackground(Color.BLACK);
+        editProductFrame.setSize(400, 500);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        saveProductFrame.setLocation(dim.width / 2 - saveProductFrame.getSize().width / 2, dim.height / 2 - saveProductFrame.getSize().height / 2);
-        saveProductFrame.setResizable(false);
-        saveProductFrame.setLayout(null);
+        editProductFrame.setLocation(dim.width / 2 - editProductFrame.getSize().width / 2, dim.height / 2 - editProductFrame.getSize().height / 2);
+        editProductFrame.setResizable(false);
+        editProductFrame.setLayout(null);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(null);
         mainPanel.setBounds(10, 10, 360, 440);
-        mainPanel.setBackground(Color.BLACK);
-        saveProductFrame.add(mainPanel);
+        mainPanel.setBackground(Color.BLUE);
+        editProductFrame.add(mainPanel);
+
+        JLabel idLable = new JLabel("ID: ");
+        idLable.setForeground(new Color(0X00FF00));
+        idLable.setBackground(Color.BLACK);
+        idLable.setFont(new Font("Serif", Font.ITALIC, 18));
+        idLable.setOpaque(true);
+        idLable.setBounds(20, 40, 50, 25);
+        mainPanel.add(idLable);
 
         JLabel nameLable = new JLabel("name: ");
         nameLable.setForeground(new Color(0X00FF00));
         nameLable.setBackground(Color.BLACK);
         nameLable.setFont(new Font("Serif", Font.ITALIC, 18));
         nameLable.setOpaque(true);
-        nameLable.setBounds(20, 40, 50, 25);
+        nameLable.setBounds(20, 80, 50, 25);
         mainPanel.add(nameLable);
 
         JLabel categoryLable = new JLabel("category: ");
@@ -61,7 +69,7 @@ public class ProductSaveView {
         categoryLable.setBackground(Color.BLACK);
         categoryLable.setFont(new Font("Serif", Font.ITALIC, 18));
         categoryLable.setOpaque(true);
-        categoryLable.setBounds(20, 90, 80, 25);
+        categoryLable.setBounds(20, 120, 80, 25);
         mainPanel.add(categoryLable);
 
         JLabel supplierLable = new JLabel("Supplier: ");
@@ -69,7 +77,7 @@ public class ProductSaveView {
         supplierLable.setBackground(Color.BLACK);
         supplierLable.setFont(new Font("Serif", Font.ITALIC, 18));
         supplierLable.setOpaque(true);
-        supplierLable.setBounds(20, 140, 80, 25);
+        supplierLable.setBounds(20, 160, 80, 25);
         mainPanel.add(supplierLable);
 
         JLabel rspLable = new JLabel("RSP: ");
@@ -77,7 +85,7 @@ public class ProductSaveView {
         rspLable.setBackground(Color.BLACK);
         rspLable.setFont(new Font("Serif", Font.ITALIC, 18));
         rspLable.setOpaque(true);
-        rspLable.setBounds(20, 190, 50, 25);
+        rspLable.setBounds(20, 200, 50, 25);
         mainPanel.add(rspLable);
 
         JLabel netRspLable = new JLabel("Net Rsp: ");
@@ -93,7 +101,7 @@ public class ProductSaveView {
         storageLocationLable.setBackground(Color.BLACK);
         storageLocationLable.setFont(new Font("Serif", Font.ITALIC, 18));
         storageLocationLable.setOpaque(true);
-        storageLocationLable.setBounds(20, 290, 140, 25);
+        storageLocationLable.setBounds(20, 280, 140, 25);
         mainPanel.add(storageLocationLable);
 
         JLabel statusLable = new JLabel("Status: ");
@@ -101,42 +109,44 @@ public class ProductSaveView {
         statusLable.setBackground(Color.BLACK);
         statusLable.setFont(new Font("Serif", Font.ITALIC, 18));
         statusLable.setOpaque(true);
-        statusLable.setBounds(20, 340, 60, 25);
+        statusLable.setBounds(20, 320, 60, 25);
         mainPanel.add(statusLable);
 
-        nameFeild = new JTextField();
-        nameFeild.setBounds(80, 40, 200, 25);
-        mainPanel.add(nameFeild);
+        idFeild = new JTextField(String.valueOf(product.getId()));
+        idFeild.setBounds(80, 40, 200, 25);
+        idFeild.setEditable(false);
+        mainPanel.add(idFeild);
 
+        nameFeild = new JTextField(product.getName());
+        nameFeild.setBounds(80, 80, 200, 25);
+        mainPanel.add(nameFeild);
 
         addCategoryByComboBox = new JComboBox(categoryMap.keySet().toArray(new String[0]));
         addCategoryByComboBox.setBackground(Color.GRAY);
         addCategoryByComboBox.setEditable(false);
-        addCategoryByComboBox.setBounds(110, 90, 200, 25);
+        addCategoryByComboBox.setBounds(110, 120, 200, 25);
         mainPanel.add(addCategoryByComboBox);
 
-        supplierComboBox = new JComboBox(supplierMap.keySet().toArray(new String[0]));
-        supplierComboBox.setBackground(Color.GRAY);
-        supplierComboBox.setEditable(false);
-        supplierComboBox.setBounds(110, 140, 200, 25);
-        mainPanel.add(supplierComboBox);
+        supplierFeild = new JTextField(product.getSupplier());
+        supplierFeild.setBounds(110, 160, 200, 25);
+        mainPanel.add(supplierFeild);
 
-        rspFeild = new JTextField();
-        rspFeild.setBounds(80, 190, 200, 25);
+        rspFeild = new JTextField(String.valueOf(product.getRsp()));
+        rspFeild.setBounds(80, 200, 200, 25);
         mainPanel.add(rspFeild);
 
-        netRspFeild = new JTextField();
+        netRspFeild = new JTextField(String.valueOf(product.getNetRsp()));
         netRspFeild.setBounds(100, 240, 200, 25);
         mainPanel.add(netRspFeild);
 
-        storageLocationFeild = new JTextField();
-        storageLocationFeild.setBounds(170, 290, 150, 25);
+        storageLocationFeild = new JTextField(product.getStorageLocation());
+        storageLocationFeild.setBounds(170, 280, 150, 25);
         mainPanel.add(storageLocationFeild);
 
         statusComboBox = new JComboBox(statusDropDown);
         statusComboBox.setBackground(Color.GRAY);
         statusComboBox.setEditable(false);
-        statusComboBox.setBounds(90, 340, 200, 25);
+        statusComboBox.setBounds(90, 320, 200, 25);
         mainPanel.add(statusComboBox);
 
         JButton saveButton = new JButton("save");
@@ -146,8 +156,23 @@ public class ProductSaveView {
         mainPanel.add(saveButton);
         saveButton.addActionListener(saveOnClickEvent());
 
-        saveProductFrame.setVisible(true);
-        return saveProductFrame;
+        JButton cancelButton = new JButton("cancel");
+        cancelButton.setBackground(Color.LIGHT_GRAY);
+        cancelButton.setBounds(20, 400, 90, 30);
+        cancelButton.setFont(new Font("Serif", Font.ITALIC, 16));
+        mainPanel.add(cancelButton);
+        cancelButton.addActionListener(cancelOnClickEvent());
+
+        editProductFrame.setVisible(true);
+        return editProductFrame;
+    }
+
+    private ActionListener cancelOnClickEvent() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editProductFrame.dispose();
+            }
+        };
     }
 
     private ActionListener saveOnClickEvent() {
@@ -155,20 +180,18 @@ public class ProductSaveView {
             public void actionPerformed(ActionEvent e) {
                 Product product = new Product();
                 Integer categoryId = categoryMap.get(addCategoryByComboBox.getSelectedItem());
-                Integer supplierId = supplierMap.get(supplierComboBox.getSelectedItem());
                 String status = (String) statusComboBox.getSelectedItem();
+                product.setId(Integer.parseInt(idFeild.getText()));
                 product.setName(nameFeild.getText());
-                product.setSupplierId(supplierId);
                 product.setCategoryId(categoryId);
                 product.setCategory(addCategoryByComboBox.getSelectedItem().toString());
-                product.setSupplier(supplierComboBox.getSelectedItem().toString());
+                product.setSupplier(supplierFeild.getText());
                 product.setRsp(Double.parseDouble(rspFeild.getText()));
                 product.setNetRsp(Double.parseDouble(netRspFeild.getText()));
                 product.setStorageLocation(storageLocationFeild.getText());
                 product.setStatus(status);
-                productService.saveProduct(product);
-                saveProductFrame.dispose();
-                productView.showAll();
+                productService.updateProduct(product);
+                editProductFrame.dispose();
             }
         };
     }

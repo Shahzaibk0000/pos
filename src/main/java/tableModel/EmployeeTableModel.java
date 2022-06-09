@@ -1,16 +1,16 @@
 package tableModel;
 
-import entity.Product;
+import entity.Category;
+import entity.Employee;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import java.util.ArrayList;
 
-public class ProductTableModel extends AbstractTableModel {
-    private String[] columnNames = {"Id", "Name", "Category","Supplier","RSP","Net RSP" , "Storage Location" , "Status"};
-    private ArrayList<Product> dataList;
+public class EmployeeTableModel extends AbstractTableModel {
+    private String[] columnNames = {"Id", "Name", "Father Name" , "Designation" , "Cnic" , "Phone Number" , "Start Date" , "End Date" , "Status"};
+    private ArrayList<Employee> dataList;
 
-    public ProductTableModel(ArrayList<Product> dataList) {
+    public EmployeeTableModel(ArrayList<Employee> dataList) {
         this.dataList = dataList;
     }
 
@@ -31,18 +31,21 @@ public class ProductTableModel extends AbstractTableModel {
         } else if (columnIndex == 1) {
             return dataList.get(rowIndex).getName();
         } else if (columnIndex == 2) {
-            return dataList.get(rowIndex).getCategory();
-        } else if (columnIndex == 3) {
-            return dataList.get(rowIndex).getSupplier();
-        } else if (columnIndex == 4) {
-            return dataList.get(rowIndex).getRsp();
-        } else if (columnIndex == 5) {
-            return dataList.get(rowIndex).getNetRsp();
-        } else if (columnIndex == 6) {
-            return dataList.get(rowIndex).getStorageLocation();
-        } else if (columnIndex == 7) {
+            return dataList.get(rowIndex).getFatherName();
+        }  else if (columnIndex == 3) {
+            return dataList.get(rowIndex).getDesignation();
+        }  else if (columnIndex == 4) {
+            return dataList.get(rowIndex).getCnic();
+        }  else if (columnIndex == 5) {
+            return dataList.get(rowIndex).getPhoneNumber();
+        }  else if (columnIndex == 6) {
+            return dataList.get(rowIndex).getStartDate();
+        }  else if (columnIndex == 7) {
+            return dataList.get(rowIndex).getEndDate();
+        }  else if (columnIndex == 8) {
             return dataList.get(rowIndex).getStatus();
         }
+
 
         return "N/A";
     }
@@ -61,12 +64,14 @@ public class ProductTableModel extends AbstractTableModel {
         } else if (columnIndex == 3) {
             return String.class;
         } else if (columnIndex == 4) {
-            return Double.class;
+            return String.class;
         } else if (columnIndex == 5) {
-            return Double.class;
+            return String.class;
         } else if (columnIndex == 6) {
             return String.class;
         } else if (columnIndex == 7) {
+            return String.class;
+        } else if (columnIndex == 8) {
             return String.class;
         } else {
             return String.class;

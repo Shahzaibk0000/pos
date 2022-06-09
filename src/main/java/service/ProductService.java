@@ -4,6 +4,7 @@ import dao.ProductDao;
 import entity.Product;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductService {
     private ProductDao productDao;
@@ -24,7 +25,15 @@ public class ProductService {
         return productDao.searchProductById(id);
     }
 
+    public Map<String,Integer> getAllProductMap() {
+        return productDao.getAllProductMap();
+    }
+
     public void saveProduct(Product product) {
         productDao.saveProduct(product);
+    }
+
+    public void updateProduct(Product product) {
+        productDao.updateProduct(product);
     }
 }

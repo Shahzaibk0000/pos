@@ -1,16 +1,15 @@
 package tableModel;
 
-import entity.Product;
-
+import entity.Inventory;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import java.util.ArrayList;
 
-public class ProductTableModel extends AbstractTableModel {
-    private String[] columnNames = {"Id", "Name", "Category","Supplier","RSP","Net RSP" , "Storage Location" , "Status"};
-    private ArrayList<Product> dataList;
+public class InventoryTableModel extends AbstractTableModel{
 
-    public ProductTableModel(ArrayList<Product> dataList) {
+    private String[] columnNames = {"Id", "Category", "Product","Purchase Price","Quantity","Total Price" , "Storage Location" , "Status" , "Date"};
+    private ArrayList<Inventory> dataList;
+
+    public InventoryTableModel(ArrayList<Inventory> dataList) {
         this.dataList = dataList;
     }
 
@@ -27,21 +26,23 @@ public class ProductTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (columnIndex == 0) {
-            return dataList.get(rowIndex).getId();
+            return dataList.get(rowIndex).getInventoryId();
         } else if (columnIndex == 1) {
-            return dataList.get(rowIndex).getName();
+            return dataList.get(rowIndex).getCategoryName();
         } else if (columnIndex == 2) {
-            return dataList.get(rowIndex).getCategory();
+            return dataList.get(rowIndex).getProductName();
         } else if (columnIndex == 3) {
-            return dataList.get(rowIndex).getSupplier();
+            return dataList.get(rowIndex).getPurchasePrice();
         } else if (columnIndex == 4) {
-            return dataList.get(rowIndex).getRsp();
+            return dataList.get(rowIndex).getQuantity();
         } else if (columnIndex == 5) {
-            return dataList.get(rowIndex).getNetRsp();
+            return dataList.get(rowIndex).getTotalPrice();
         } else if (columnIndex == 6) {
             return dataList.get(rowIndex).getStorageLocation();
         } else if (columnIndex == 7) {
-            return dataList.get(rowIndex).getStatus();
+            return dataList.get(rowIndex).getInventoryStatus();
+        } else if (columnIndex == 8) {
+            return dataList.get(rowIndex).getDate();
         }
 
         return "N/A";
@@ -59,16 +60,18 @@ public class ProductTableModel extends AbstractTableModel {
         } else if (columnIndex == 2) {
             return String.class;
         } else if (columnIndex == 3) {
-            return String.class;
-        } else if (columnIndex == 4) {
             return Double.class;
+        } else if (columnIndex == 4) {
+            return Integer.class;
         } else if (columnIndex == 5) {
             return Double.class;
         } else if (columnIndex == 6) {
             return String.class;
         } else if (columnIndex == 7) {
             return String.class;
-        } else {
+        } else if (columnIndex == 8) {
+            return String.class;
+        }  else {
             return String.class;
         }
     }
